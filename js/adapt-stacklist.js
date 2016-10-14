@@ -18,6 +18,8 @@ define(function(require) {
 		setupListItems: function() {
 
 			// Set item positions alternating R and L
+			var $stacklistItems = this.$(".stacklist-items");
+			$stacklistItems.height($stacklistItems.height());
 			var $items = this.$(".stacklist-item");
 			var wWin = $(window).width();
 			$items.each(function(i) {
