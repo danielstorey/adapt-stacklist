@@ -25,7 +25,7 @@ define(function(require) {
 				var even = i % 2 === 0;
 				var offset = $el.offset();
 				offset.left = even ? - wWin : wWin;
-				$el.offset(offset);
+				$el.offset(offset).hide();
 			});
 		},
 
@@ -43,7 +43,7 @@ define(function(require) {
 
 			this.$(".stacklist-button").css({top: "+=" + h});
 			setTimeout(function() {
-				$item.css({left: 0});
+				$item.show().css({left: 0});
 			}, 250);
 
 			if (this.model.get("_items").length - 1 === stage) {
