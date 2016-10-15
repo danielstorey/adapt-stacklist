@@ -41,11 +41,12 @@ define(function(require) {
 
 			this.$(".stacklist-next").html("Next");
 			var $item = this.$(".stacklist-item").eq(stage);
+			$item.show();
 			var h = $item.outerHeight(true);
 
 			this.$(".stacklist-button").css({top: "+=" + h});
 			setTimeout(function() {
-				$item.show().css({left: 0});
+				$item.css({left: 0});
 			}, 250);
 
 			if (this.model.get("_items").length - 1 === stage) {
