@@ -9,7 +9,7 @@ The **Stacklist** component displays list items one at a time when the learner c
 
 ##Installation
 
-Simply copy this folder into src/components/ and run the `grunt build` command.
+Run the following from the command line: `adapt install adapt-stacklist`
 
 ## Settings Overview
 
