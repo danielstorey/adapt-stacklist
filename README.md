@@ -5,6 +5,8 @@
 
 The **Stacklist** component displays list items one at a time when the learner clicks a button. Items fly into view from left and right alternately.
 
+[**Click here for an interactive demo**](https://danielstorey.github.io/adapt-demo-course/#/id/co-main)
+
 ##Installation
 
 Simply copy this folder into src/components/ and run the `grunt build` command.
