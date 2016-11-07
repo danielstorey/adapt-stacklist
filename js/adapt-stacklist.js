@@ -10,7 +10,7 @@ define(function(require) {
 		},
 
 		postRender: function() {
-			this.setupListItems();
+			if (!this.model.get("_isComplete") || this.model.get("_isResetOnRevisit")) this.setupListItems();
 			this.setReadyStatus();
 			this.model.set("_stage", -1);
 		},
@@ -29,6 +29,7 @@ define(function(require) {
 				offset.left = even ? - wWin : wWin;
 				$el.offset(offset).hide();
 			});
+			this.$(".stacklist-button").show();
 		},
 
 		nextItem: function() {
