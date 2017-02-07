@@ -7,11 +7,29 @@
     "displayTitle": "Stacklist",
     "body": "",
     "_items": [
-        "This component is useful for making boring text lists that little bit more interactive.",
-        "List items slide in from alternating sides.",
-        "There is no limit to the number of items you can have.",
-        "Although if you have too many it will be a bit boring.",
-        "At least now you get the gist of how this works.",
-        "That's pretty much it."
+        {
+            "description": "This component is useful for making boring text lists that little bit more interactive.",
+            "next": "Show me more!"
+        },
+        {
+            "description": "List items slide in from alternating sides.",
+            "next": "... and you can modify this text!"
+        },
+        {
+            "description": "There is no limit to the number of items you can have.",
+            "next": "It's localisation friendly"
+        },
+        {
+            "description": "Although if you have too many it will be a bit boring.",
+            "next": "... but you can customize it"
+        },     
+        {
+            "description": "At least now you get the gist of how this works.",
+            "next": "I get it!"
+        },  
+        {
+            "description": "That's pretty much it.",
+            "next": "Step 5"
+        }            
     ]
 }
