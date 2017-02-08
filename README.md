@@ -21,13 +21,23 @@ For core model attributes see [**core model attributes**](https://github.com/ada
 
 **_component** (string): This value must be: `stacklist`.
 
-**_items** (array): An array of text strings, each one representing one list item. Text may include html.
+**_button** (object): This allows you to specify the default button text (Optional).
+
+>**startText** (string): The text to display before any items are shown (Optional - defaults to "Click here to begin")
+
+>**continueText** (string): The text to display to trigger the next item (Optional - defaults to "Next")
+
+**_items** (array): Each item represents a sliding element.
+
+>**body** (string): The main text for sliding item.
+
+>**next** (string): This text becomes the 'next' button.
 
 ## Limitations
 
 No known limitations
 
 ----------------------------
-**Version number:**  1.0
+**Version number:**  1.0.2
 **Framework versions:**  2.0
 **Author / maintainer:** Dan Storey
