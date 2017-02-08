@@ -40,7 +40,9 @@ define(function(require) {
 		setStage: function(stage) {
 			this.model.set("_stage", stage);
 
-			this.$(".stacklist-next").html("Next");
+			var nextButtonText = this.model.get("_items")[stage].next || "Next";
+			this.$(".stacklist-next").html(nextButtonText);
+			
 			var $item = this.$(".stacklist-item").eq(stage);
 			$item.show();
 			var h = $item.outerHeight(true);

@@ -21,7 +21,11 @@ For core model attributes see [**core model attributes**](https://github.com/ada
 
 **_component** (string): This value must be: `stacklist`.
 
-**_items** (array): An array of text strings, each one representing one list item. Text may include html.
+**_items** (array): Each item represents a sliding element.
+
+>**description** (string): The main text for sliding item.
+
+>**next** (string): This text becomes the 'next' button.
 
 ## Limitations
 
