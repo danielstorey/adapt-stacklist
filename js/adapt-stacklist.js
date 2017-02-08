@@ -9,10 +9,23 @@ define(function(require) {
 			"click .stacklist-next": "nextItem"
 		},
 
+		preRender: function() {
+			this.model.set("_stage", -1);
+			this.setupButton();
+		},
+
 		postRender: function() {
 			if (!this.model.get("_isComplete") || this.model.get("_isResetOnRevisit")) this.setupListItems();
 			this.setReadyStatus();
-			this.model.set("_stage", -1);
+		},
+
+		setupButton: function() {
+			var _button = this.model.get("_button") || {};
+
+			if (!_button.startText) _button.startText = "Click here to begin";
+			if (!_button.continueText) _button.continueText = "Next";
+
+			this.model.set("_button", _button);
 		},
 
 		setupListItems: function() {
@@ -26,7 +39,7 @@ define(function(require) {
 				var $el = $items.eq(i);
 				var even = i % 2 === 0;
 				var offset = $el.offset();
-				offset.left = even ? - wWin : wWin;
+				offset.left = even ? - ($el.outerWidth() + 10) : wWin + 10;
 				$el.offset(offset).hide();
 			});
 			this.$(".stacklist-button").show();
@@ -39,10 +52,8 @@ define(function(require) {
 
 		setStage: function(stage) {
 			this.model.set("_stage", stage);
-
-			var nextButtonText = this.model.get("_items")[stage].next || "Next";
-			this.$(".stacklist-next").html(nextButtonText);
-			
+			var continueText = this.model.get("_items")[stage].next || this.model.get("_button").continueText;
+			this.$(".stacklist-next").html(continueText);
 			var $item = this.$(".stacklist-item").eq(stage);
 			$item.show();
 			var h = $item.outerHeight(true);

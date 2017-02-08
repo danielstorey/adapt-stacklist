@@ -6,6 +6,10 @@
     "title": "Stacklist",
     "displayTitle": "Stacklist",
     "body": "",
+	"_button": {
+		"startText": "Let's get started",
+		"continueText": "Continue"
+	},
     "_items": [
         {
             "body": "This component is useful for making boring text lists that little bit more interactive.",
