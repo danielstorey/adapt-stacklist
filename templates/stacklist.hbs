@@ -5,7 +5,11 @@
         <div class="stacklist-items">
             {{#each _items}}
             <div class="stacklist-item">
-                {{#if description}}{{{a11y_text description}}}{{/if}}
+                {{#if this.length}}
+                    {{{a11y_text this}}}
+                {{else}}
+                    {{{a11y_text body}}}
+                {{/if}}
             </div>
             {{/each}}
             <div class="stacklist-button">
