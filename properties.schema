@@ -1,5 +1,5 @@
 {
-  "type":"object",
+  "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "id": "http://jsonschema.net",
   "$ref": "http://localhost/plugins/content/component/model.schema",
@@ -13,7 +13,7 @@
       "translatable": true
     }
   },
-  "properties":{
+  "properties": {
     "_supportedLayout": {
       "type": "string",
       "required": true,
@@ -49,6 +49,33 @@
           }
         }
       }
+    },
+    "_button": {
+      "type": "object",
+      "required": false,
+      "properties": {
+        "startText": {
+          "type": "string",
+          "required": false,
+          "default": "Click here to begin",
+          "inputType": "Text",
+          "validators": [],
+          "title": "Start button text",
+          "help": "",
+          "translatable": true
+        },
+        "continueText": {
+          "type": "string",
+          "required": false,
+          "default": "Next",
+          "inputType": "Text",
+          "validators": [],
+          "title": "Next button text",
+          "help": "",
+          "translatable": true
+        }
+      }
+
     }
   }
 }
