@@ -3,19 +3,21 @@
 
     <div class="stacklist-widget component-widget">
         <div class="stacklist-items">
-            {{#each _items}}
-            <div class="stacklist-item">
-                {{#if this.length}}
-                    {{{a11y_text this}}}
-                {{else}}
-                    {{{a11y_text body}}}
-                {{/if}}
-            </div>
-            {{/each}}
-            <div class="stacklist-button">
-                <button class="stacklist-next" aria-label="{{_globals._accessibility._ariaLabels.next}}" role="button">
-	                {{{_button.startText}}}
-                </button>
+            <div class="stacklist-items-inner">
+                {{#each _items}}
+                    <div class="stacklist-item visibility-hidden">
+                        {{#if this.length}}
+                            {{{a11y_text this}}}
+                        {{else}}
+                            {{{a11y_text body}}}
+                        {{/if}}
+                    </div>
+                {{/each}}
+                <div class="stacklist-button">
+                    <button class="stacklist-next" aria-label="{{_globals._accessibility._ariaLabels.next}}" role="button">
+                        {{{_button.startText}}}
+                    </button>
+                </div>
             </div>
         </div>
     </div>

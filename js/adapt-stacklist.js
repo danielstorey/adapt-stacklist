@@ -5,6 +5,8 @@ define(function(require) {
 
 	var StackList = ComponentView.extend({
 
+	    TRANSITION_TIME: 250,
+
 		events: {
 			"click .stacklist-next": "nextItem"
 		},
@@ -12,6 +14,7 @@ define(function(require) {
 		preRender: function() {
 			this.model.set("_stage", -1);
 			this.setupButton();
+			this.listenTo(Adapt, "device:resize", this.setupListItems);
 		},
 
 		postRender: function() {
@@ -31,8 +34,7 @@ define(function(require) {
 		setupListItems: function() {
 
 			// Set item positions alternating R and L
-			var $stacklistItems = this.$(".stacklist-items");
-			$stacklistItems.height($stacklistItems.height());
+            this.$(".stacklist-items").height(this.$(".stacklist-items-inner").height());
 			var $items = this.$(".stacklist-item");
 			var wWin = $(window).width();
 			$items.each(function(i) {
@@ -40,10 +42,14 @@ define(function(require) {
 				var even = i % 2 === 0;
 				var offset = $el.offset();
 				offset.left = even ? - ($el.outerWidth() + 10) : wWin + 10;
-				$el.offset(offset).hide();
+				$el.offset(offset);
 			});
 			this.$(".stacklist-button").show();
 		},
+
+        setupListHeight: function() {
+
+        },
 
 		nextItem: function() {
 			var stage = this.model.get("_stage") + 1;
@@ -52,18 +58,29 @@ define(function(require) {
 
 		setStage: function(stage) {
 			this.model.set("_stage", stage);
+
 			var continueText = this.model.get("_items")[stage].next || this.model.get("_button").continueText;
-			this.$(".stacklist-next").html(continueText);
+			var isComplete = this.model.get("_items").length - 1 === stage;
+
+			if (!isComplete) {
+                this.$(".stacklist-next").html(continueText);
+            }
+
 			var $item = this.$(".stacklist-item").eq(stage);
-			$item.show();
+            $item.removeClass("visibility-hidden");
 			var h = $item.outerHeight(true);
 
-			this.$(".stacklist-button").css({top: "+=" + h});
-			setTimeout(function() {
-				$item.css({left: 0});
-			}, 250);
+			this.$(".stacklist-button").velocity({top: "+=" + h}, this.TRANSITION_TIME);
 
-			if (this.model.get("_items").length - 1 === stage) {
+			$item.velocity({left: 0}, {
+			    delay: this.TRANSITION_TIME,
+                duration: this.TRANSITION_TIME,
+                complete: function() {
+			        $item.addClass("show");
+                }
+			});
+
+			if (isComplete) {
 				this.onComplete()
 			}
 		},
@@ -71,10 +88,13 @@ define(function(require) {
 		onComplete: function () {
 
 			var $button = this.$(".stacklist-button");
-			$button.css({top: $(window).height()});
-			setTimeout(function() {
-				$button.remove();
-			}, 500);
+			$button.velocity({opacity: 0}, {
+			    duration: this.TRANSITION_TIME,
+                queue: false,
+                complete: function() {
+                    $button.remove();
+                }
+			});
 
 			this.setCompletionStatus();
 		}

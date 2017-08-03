@@ -1,27 +1,24 @@
-@stacklist-time: 0.25s;
-@stacklist-item-time: 0.25s;
-
-.stacklist-transition(@time) {
-	-webkit-transition: @time;
-	-moz-transition: @time;
-	-ms-transition: @time;
-	-o-transition: @time;
-	transition: @time;
-}
-
 .stacklist-items {
 	position: relative;
-	margin-bottom: -8px;
-	.stacklist-transition(@stacklist-time);
+	margin-bottom: -@item-margin;
+    height: 0;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s;
 }
 
 .stacklist-item {
 	position: relative;
 	padding: 20px;
-	margin-bottom: 8px;
+	margin-bottom: @item-margin;
 	background-color: @primary-color;
 	color: @primary-color-inverted;
-	.stacklist-transition(@stacklist-item-time);
+
+    &.show {
+        position: static !important;
+    }
 }
 
 .stacklist-button {
@@ -31,7 +28,6 @@
 	height: 53px;
 	width: 100%;
 	text-align: center;
-	.stacklist-transition(@stacklist-time);
 
 	button {
 		width: 210px;
