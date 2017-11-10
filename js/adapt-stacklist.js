@@ -14,11 +14,10 @@ define(function(require) {
 		preRender: function() {
 			this.model.set("_stage", -1);
 			this.setupButton();
-			this.listenTo(Adapt, "device:resize", this.setupListItems);
 		},
 
 		postRender: function() {
-			if (!this.model.get("_isComplete") || this.model.get("_isResetOnRevisit")) this.setupListItems();
+	    	if (!this.model.get("_isComplete") || this.model.get("_isResetOnRevisit")) this.setupListItems();
 			this.setReadyStatus();
 		},
 
@@ -34,9 +33,11 @@ define(function(require) {
 		setupListItems: function() {
 
 			// Set item positions alternating R and L
-            this.$(".stacklist-items").height(this.$(".stacklist-items-inner").height());
-			var $items = this.$(".stacklist-item");
-			var wWin = $(window).width();
+            var wWin = $(window).width();
+            var $items = this.$(".stacklist-item");
+
+            $items.addClass("visibility-hidden");
+
 			$items.each(function(i) {
 				var $el = $items.eq(i);
 				var even = i % 2 === 0;
@@ -46,10 +47,6 @@ define(function(require) {
 			});
 			this.$(".stacklist-button").show();
 		},
-
-        setupListHeight: function() {
-
-        },
 
 		nextItem: function() {
 			var stage = this.model.get("_stage") + 1;
@@ -86,7 +83,6 @@ define(function(require) {
 		},
 
 		onComplete: function () {
-
 			var $button = this.$(".stacklist-button");
 			$button.velocity({opacity: 0}, {
 			    duration: this.TRANSITION_TIME,
