@@ -46,6 +46,16 @@
             "validators": ["required"],
             "help": "This is the optional item body text",
             "translatable": true
+          },
+          "next": {
+            "type": "string",
+            "required": false,
+            "inputType": "Text",
+            "title": "Next Button Text",
+            "default": "",
+            "validators": [],
+            "help": "Leave blank to use the existing text",
+            "translatable": true
           }
         }
       }
