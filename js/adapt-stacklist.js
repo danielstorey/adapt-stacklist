@@ -74,6 +74,7 @@ define(function(require) {
                 duration: this.TRANSITION_TIME,
                 complete: function() {
 			        $item.addClass("show");
+					$item.a11y_focus();
                 }
 			});
 
