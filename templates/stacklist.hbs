@@ -14,9 +14,7 @@
                     </div>
                 {{/each}}
                 <div class="stacklist-button">
-                    <button class="stacklist-next" aria-label="{{_globals._accessibility._ariaLabels.next}}" role="button">
-                        {{{_button.startText}}}
-                    </button>
+                    <button class="stacklist-next" aria-label="{{{_button.startText}}}, {{{_button.ariaLabel}}}">{{{_button.startText}}}</button>
                 </div>
             </div>
         </div>

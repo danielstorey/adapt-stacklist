@@ -7,7 +7,15 @@
     "ariaRegion": {
       "type": "string",
       "required": true,
-      "default": "",
+      "default": "This stacklist component presents a list of items. Select the button to access each item in turn.",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    },
+      "ariaButtonLabel": {
+      "type": "string",
+      "required": true,
+      "default": "Select this button to access the next item in the stacklist.",
       "inputType": "Text",
       "validators": [],
       "translatable": true
