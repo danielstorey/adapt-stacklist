@@ -1,113 +1,112 @@
 define(function(require) {
 
-	var ComponentView = require('coreViews/componentView');
-	var Adapt = require('coreJS/adapt');
+    var ComponentView = require('coreViews/componentView');
+    var Adapt = require('coreJS/adapt');
 
-	var StackList = ComponentView.extend({
+    var StackList = ComponentView.extend({
 
-	    TRANSITION_TIME: 250,
+        TRANSITION_TIME: 250,
 
-		events: {
-			"click .stacklist-next": "nextItem"
-		},
+        events: {
+            "click .stacklist-next": "nextItem"
+        },
 
-		preRender: function() {
-			this.model.set('_globals', Adapt.course.get('_globals'));
-			this.model.set("_stage", -1);
-			this.setupButton();
-		},
+        preRender: function() {
+            this.model.set('_globals', Adapt.course.get('_globals'));
+            this.model.set("_stage", -1);
+            this.setupButton();
+        },
 
-		postRender: function() {
-	    	if (!this.model.get("_isComplete") || this.model.get("_isResetOnRevisit")) this.setupListItems();
-			this.setReadyStatus();
-		},
+        postRender: function() {
+            if (!this.model.get("_isComplete") || this.model.get("_isResetOnRevisit")) this.setupListItems();
+            this.setReadyStatus();
+        },
 
-		setupButton: function() {
-			var _button = this.model.get("_button") || {};
-			// Set up button aria label
+        setupButton: function() {
+            var _button = this.model.get("_button") || {};
+            // Set up button aria label
 
-			var btnAriaLabel = this.model.get('_globals')._components._stacklist.ariaButtonLabel || this.model.get('_globals')._accessibility._ariaLabels.next;
-			this.model.set({buttonAriaLabel: btnAriaLabel});
+            var btnAriaLabel = this.model.get("_globals")._components._stacklist.ariaButtonLabel || this.model.get("_globals")._accessibility._ariaLabels.next;
+            this.model.set({buttonAriaLabel: btnAriaLabel});
 
-			if (!_button.startText) _button.startText = "Click here to begin";
-			if (!_button.continueText) _button.continueText = "Next";
-			if (!_button.ariaLabel) _button.ariaLabel = btnAriaLabel;
+            if (!_button.startText) _button.startText = "Click here to begin";
+            if (!_button.continueText) _button.continueText = "Next";
+            if (!_button.ariaLabel) _button.ariaLabel = btnAriaLabel;
 
-			this.model.set("_button", _button);
-		},
+            this.model.set("_button", _button);
+        },
 
-		setupListItems: function() {
+        setupListItems: function() {
 
-			// Set item positions alternating R and L
+            // Set item positions alternating R and L
             var wWin = $(window).width();
             var $items = this.$(".stacklist-item");
 
             $items.addClass("visibility-hidden");
 
-			$items.each(function(i) {
-				var $el = $items.eq(i);
-				var even = i % 2 === 0;
-				var offset = $el.offset();
-				offset.left = even ? - ($el.outerWidth() + 10) : wWin + 10;
-				$el.offset(offset);
-			});
-			this.$(".stacklist-button").show();
-		},
+            $items.each(function(i) {
+                var $el = $items.eq(i);
+                var even = i % 2 === 0;
+                var offset = $el.offset();
+                offset.left = even ? - ($el.outerWidth() + 10) : wWin + 10;
+                $el.offset(offset);
+            });
+            this.$(".stacklist-button").show();
+        },
 
-		nextItem: function() {
-			var stage = this.model.get("_stage") + 1;
-			this.setStage(stage);
-		},
+        nextItem: function() {
+            var stage = this.model.get("_stage") + 1;
+            this.setStage(stage);
+        },
 
-		setStage: function(stage) {
-			this.model.set("_stage", stage);
+        setStage: function(stage) {
+            this.model.set("_stage", stage);
 
-			var continueText = this.model.get("_items")[stage].next || this.model.get("_button").continueText;
-			var btnAriaLabel = this.model.get("_button").ariaLabel;
-			var isComplete = this.model.get("_items").length - 1 === stage;
+            var continueText = this.model.get("_items")[stage].next || this.model.get("_button").continueText;
+            var btnAriaLabel = this.model.get("_button").ariaLabel;
+            var isComplete = this.model.get("_items").length - 1 === stage;
 
-			if (!isComplete) {
-				this.$(".stacklist-next")
-					.attr('aria-label', continueText + ', ' + btnAriaLabel)
-					.html(continueText);
+            if (!isComplete) {
+                this.$(".stacklist-next")
+                .attr("aria-label", continueText + ', ' + btnAriaLabel)
+                .html(continueText);
             }
 
-			var $item = this.$(".stacklist-item").eq(stage);
+            var $item = this.$(".stacklist-item").eq(stage);
             $item.removeClass("visibility-hidden");
-			var h = $item.outerHeight(true);
+            var h = $item.outerHeight(true);
 
-			this.$(".stacklist-button").velocity({top: "+=" + h}, this.TRANSITION_TIME);
+            this.$(".stacklist-button").velocity({top: "+=" + h}, this.TRANSITION_TIME);
 
-			$item.velocity({left: 0}, {
-			    delay: this.TRANSITION_TIME,
+            $item.velocity({left: 0}, {
+                delay: this.TRANSITION_TIME,
                 duration: this.TRANSITION_TIME,
                 complete: function() {
-			        $item.addClass("show");
-					$item.a11y_focus();
+                    $item.addClass("show").a11y_focus();
                 }
-			});
+            });
 
-			if (isComplete) {
-				this.onComplete()
-			}
-		},
+            if (isComplete) {
+                this.onComplete()
+            }
+        },
 
-		onComplete: function () {
-			var $button = this.$(".stacklist-button");
-			$button.velocity({opacity: 0}, {
-			    duration: this.TRANSITION_TIME,
+        onComplete: function () {
+            var $button = this.$(".stacklist-button");
+            $button.velocity({opacity: 0}, {
+                duration: this.TRANSITION_TIME,
                 queue: false,
                 complete: function() {
                     $button.remove();
                 }
-			});
+            });
 
-			this.setCompletionStatus();
-		}
-	});
+            this.setCompletionStatus();
+        }
+    });
 
-	Adapt.register('stacklist', StackList);
+    Adapt.register('stacklist', StackList);
 
-	return StackList;
+    return StackList;
 
 });
