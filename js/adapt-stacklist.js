@@ -12,7 +12,7 @@ define(function(require) {
         },
 
         preRender: function() {
-            this.model.set("_globals", Adapt.course.get('_globals'));
+            this.model.set("_globals", Adapt.course.get("_globals"));
             this.model.set("_stage", -1);
             this.setupButton();
         },
