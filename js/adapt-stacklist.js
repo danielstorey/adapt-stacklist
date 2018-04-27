@@ -68,7 +68,7 @@ define(function(require) {
 
             if (!isComplete) {
                 this.$(".stacklist-next")
-                .attr("aria-label", continueText + ', ' + btnAriaLabel)
+                .attr("aria-label", continueText + ", " + btnAriaLabel)
                 .html(continueText);
             }
 
