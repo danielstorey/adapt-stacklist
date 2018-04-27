@@ -23,9 +23,13 @@ define(function(require) {
 
 		setupButton: function() {
 			var _button = this.model.get("_button") || {};
+			// Set up button aria label
+			var btnAriaLabel = _globals._components._stacklist.ariaButtonLabel || _globals._accessibility._ariaLabels.next;
+			this.model.set({buttonAriaLabel: btnAriaLabel});
 
 			if (!_button.startText) _button.startText = "Click here to begin";
 			if (!_button.continueText) _button.continueText = "Next";
+			if (!_button.ariaLabel) _button.ariaLabel = btnAriaLabel;
 
 			this.model.set("_button", _button);
 		},
@@ -60,7 +64,9 @@ define(function(require) {
 			var isComplete = this.model.get("_items").length - 1 === stage;
 
 			if (!isComplete) {
-                this.$(".stacklist-next").html(continueText);
+				this.$(".stacklist-next")
+					.attr('aria-label', continueText + '.' + btnAriaLabel)
+					.html(continueText);
             }
 
 			var $item = this.$(".stacklist-item").eq(stage);

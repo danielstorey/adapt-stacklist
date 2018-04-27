@@ -14,13 +14,7 @@
                     </div>
                 {{/each}}
                 <div class="stacklist-button">
-                    {{#if _globals._components._stacklist.ariaButtonLabel}}
-                        <button class="stacklist-next" aria-label="{{_globals._components._stacklist.ariaButtonLabel}}" role="button">
-                    {{else}}
-                        <button class="stacklist-next" aria-label="{{_globals._accessibility._ariaLabels.next}}" role="button">
-                    {{/if}}
-                            {{{_button.startText}}}
-                        </button>
+                    <button class="stacklist-next" aria-label="{{{_button.startText}}}.{{{_button.ariaLabel}}}">{{{_button.startText}}}</button>
                 </div>
             </div>
         </div>
