@@ -12,6 +12,7 @@ define(function(require) {
 		},
 
 		preRender: function() {
+			this.model.set('_globals', Adapt.course.get('_globals'));
 			this.model.set("_stage", -1);
 			this.setupButton();
 		},
@@ -24,7 +25,8 @@ define(function(require) {
 		setupButton: function() {
 			var _button = this.model.get("_button") || {};
 			// Set up button aria label
-			var btnAriaLabel = _globals._components._stacklist.ariaButtonLabel || _globals._accessibility._ariaLabels.next;
+
+			var btnAriaLabel = this.model.get('_globals')._components._stacklist.ariaButtonLabel || this.model.get('_globals')._accessibility._ariaLabels.next;
 			this.model.set({buttonAriaLabel: btnAriaLabel});
 
 			if (!_button.startText) _button.startText = "Click here to begin";
@@ -61,11 +63,12 @@ define(function(require) {
 			this.model.set("_stage", stage);
 
 			var continueText = this.model.get("_items")[stage].next || this.model.get("_button").continueText;
+			var btnAriaLabel = this.model.get("_button").ariaLabel;
 			var isComplete = this.model.get("_items").length - 1 === stage;
 
 			if (!isComplete) {
 				this.$(".stacklist-next")
-					.attr('aria-label', continueText + '.' + btnAriaLabel)
+					.attr('aria-label', continueText + ', ' + btnAriaLabel)
 					.html(continueText);
             }
 
