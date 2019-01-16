@@ -35,7 +35,8 @@
       "default": "",
       "inputType": "Text",
       "validators": [],
-      "help": "This is the instruction text"
+      "help": "This is the instruction text",
+      "translatable": true
     },
     "_items": {
       "type": "array",
