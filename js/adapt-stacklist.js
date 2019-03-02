@@ -18,7 +18,14 @@ define(function(require) {
         },
 
         postRender: function() {
-            if (!this.model.get("_isComplete") || this.model.get("_isResetOnRevisit")) this.setupListItems();
+            this.$items = this.$(".stacklist-item");
+            this.$button = this.$('.stacklist-button');
+
+            if (!this.model.get("_isComplete") || this.model.get("_isResetOnRevisit")) {
+                this.setupListItems();
+                this.setupItemOffsets();
+                this.listenTo(Adapt, 'device:resize', this.setupItemOffsets);
+            }
             this.setReadyStatus();
         },
 
@@ -27,7 +34,7 @@ define(function(require) {
             // Set up button aria label
 
             var btnAriaLabel = this.model.get("_globals")._components._stacklist.ariaButtonLabel || this.model.get("_globals")._accessibility._ariaLabels.next;
-            this.model.set({buttonAriaLabel: btnAriaLabel});
+            this.model.set({ buttonAriaLabel: btnAriaLabel });
 
             if (!_button.startText) _button.startText = "Click here to begin";
             if (!_button.continueText) _button.continueText = "Next";
@@ -37,21 +44,35 @@ define(function(require) {
         },
 
         setupListItems: function() {
+            this.$items.addClass("visibility-hidden");
+            this.$button.show();
+        },
 
+        setupItemOffsets: function() {
             // Set item positions alternating R and L
             var wWin = $(window).width();
-            var $items = this.$(".stacklist-item");
+            var offsetLeft = -this.$el.outerWidth();
+            var offsetRight = wWin + 10;
+            var stage = this.model.get('_stage');
+            var buttonOffset = 0;
 
-            $items.addClass("visibility-hidden");
+            this.$items.each(function(i) {
+                var $el = $(this);
 
-            $items.each(function(i) {
-                var $el = $items.eq(i);
-                var even = i % 2 === 0;
+                if (i <= stage) {
+                    buttonOffset += $el.outerHeight(true);
+                    return;
+                }
+
+                var isLeft = i % 2 === 0;
                 var offset = $el.offset();
-                offset.left = even ? - ($el.outerWidth() + 10) : wWin + 10;
+                offset.left = isLeft ? offsetLeft : offsetRight;
                 $el.offset(offset);
             });
-            this.$(".stacklist-button").show();
+
+            this.$button.css({top: buttonOffset});
+
+
         },
 
         nextItem: function() {
@@ -62,23 +83,17 @@ define(function(require) {
         setStage: function(stage) {
             this.model.set("_stage", stage);
 
-            var continueText = this.model.get("_items")[stage].next || this.model.get("_button").continueText;
-            var btnAriaLabel = this.model.get("_button").ariaLabel;
+            var items = this.model.get("_items");
+            var continueText = items[stage].next || this.model.get("_button").continueText;
             var isComplete = this.model.get("_items").length - 1 === stage;
-
-            if (!isComplete) {
-                this.$(".stacklist-next")
-                .attr("aria-label", continueText + ", " + btnAriaLabel)
-                .html(continueText);
-            }
-
             var $item = this.$(".stacklist-item").eq(stage);
+
             $item.removeClass("visibility-hidden");
+
             var h = $item.outerHeight(true);
+            this.updateButton(continueText, h);
 
-            this.$(".stacklist-button").velocity({top: "+=" + h}, this.TRANSITION_TIME);
-
-            $item.velocity({left: 0}, {
+            $item.velocity({ left: 0 }, {
                 delay: this.TRANSITION_TIME,
                 duration: this.TRANSITION_TIME,
                 complete: function() {
@@ -87,19 +102,26 @@ define(function(require) {
             });
 
             if (isComplete) {
-                this.onComplete()
+                this.onComplete();
             }
         },
 
-        onComplete: function () {
+        updateButton: function(text, offset) {
+            this.$(".stacklist-button").css({ top: "+=" + offset });
+
+            var $button = this.$(".stacklist-next");
+            setTimeout(function() {
+                $button.html(text);
+            }, this.TRANSITION_TIME * 2);
+        },
+
+        onComplete: function() {
             var $button = this.$(".stacklist-button");
-            $button.velocity({opacity: 0}, {
-                duration: this.TRANSITION_TIME,
-                queue: false,
-                complete: function() {
-                    $button.remove();
-                }
-            });
+            $button.css({ opacity: 0 });
+
+            setTimeout(function() {
+                $button.remove();
+            }, this.TRANSITION_TIME);
 
             this.setCompletionStatus();
         }
