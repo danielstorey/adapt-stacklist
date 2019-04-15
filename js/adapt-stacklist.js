@@ -84,14 +84,12 @@ define(function(require) {
             this.model.set("_stage", stage);
 
             var items = this.model.get("_items");
-            var continueText = items[stage].next || this.model.get("_button").continueText;
             var isComplete = this.model.get("_items").length - 1 === stage;
             var $item = this.$(".stacklist-item").eq(stage);
 
             $item.removeClass("visibility-hidden");
 
             var h = $item.outerHeight(true);
-            this.updateButton(continueText, h);
 
             $item.velocity({ left: 0 }, {
                 delay: this.TRANSITION_TIME,
@@ -103,24 +101,36 @@ define(function(require) {
 
             if (isComplete) {
                 this.onComplete();
+                this.updateButton('', h);
+            } else {
+                var continueText = items[stage].next || this.model.get("_button").continueText;
+                var btnAriaLabel = this.model.get("_globals")._components._stacklist.ariaButtonLabel || this.model.get("_globals")._accessibility._ariaLabels.next;
+                var aria_label = continueText + ', ' + btnAriaLabel;
+
+                this.updateButton(continueText, h, aria_label);
             }
         },
 
-        updateButton: function(text, offset) {
+        updateButton: function(text, offset, aria_label) {
             this.$(".stacklist-button").css({ top: "+=" + offset });
 
-            var $button = this.$(".stacklist-next");
-            setTimeout(function() {
-                $button.html(text);
-            }, this.TRANSITION_TIME * 2);
+            if (text !== '') { // On last item we do not want to update text (it's most important when stack-list has only one item)
+                var $button = this.$(".stacklist-next");
+                $button.blur();
+                setTimeout(function() {
+                    $button.html(text);
+                    $button.attr('aria-label', aria_label);
+                }, this.TRANSITION_TIME * 2);
+            }
         },
 
         onComplete: function() {
-            var $button = this.$(".stacklist-button");
-            $button.css({ opacity: 0 });
+            var $button_div = this.$(".stacklist-button");
+            var $button = this.$(".stacklist-next");
+            $button_div.css({ opacity: 0 });
 
             setTimeout(function() {
-                $button.remove();
+                $button.attr('aria-hidden', 'true');
             }, this.TRANSITION_TIME);
 
             this.setCompletionStatus();
