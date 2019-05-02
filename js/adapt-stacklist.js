@@ -132,7 +132,7 @@ define(function(require) {
             $buttonDiv.css({ opacity: 0 });
 
             setTimeout(function() {
-                $button.attr('aria-hidden', 'true');
+                $button.remove();
             }, this.TRANSITION_TIME);
 
             this.setCompletionStatus();
