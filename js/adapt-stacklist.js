@@ -105,29 +105,31 @@ define(function(require) {
             } else {
                 var continueText = items[stage].next || this.model.get("_button").continueText;
                 var btnAriaLabel = this.model.get("_globals")._components._stacklist.ariaButtonLabel || this.model.get("_globals")._accessibility._ariaLabels.next;
-                var aria_label = continueText + ', ' + btnAriaLabel;
+                var ariaLabel = continueText + ', ' + btnAriaLabel;
 
-                this.updateButton(continueText, h, aria_label);
+                this.updateButton(continueText, h, ariaLabel);
             }
         },
 
-        updateButton: function(text, offset, aria_label) {
+        updateButton: function(text, offset, ariaLabel) {
             this.$(".stacklist-button").css({ top: "+=" + offset });
 
-            if (text !== '') { // On last item we do not want to update text (it's most important when stack-list has only one item)
-                var $button = this.$(".stacklist-next");
-                $button.blur();
-                setTimeout(function() {
-                    $button.html(text);
-                    $button.attr('aria-label', aria_label);
-                }, this.TRANSITION_TIME * 2);
+            if (text === '') { // On last item we do not want to update text (it's most important when stack-list has only one item)
+                return;
             }
+
+            var $button = this.$(".stacklist-next");
+            $button.blur();
+            setTimeout(function() {
+                $button.html(text);
+                $button.attr('aria-label', ariaLabel);
+            }, this.TRANSITION_TIME * 2);
         },
 
         onComplete: function() {
-            var $button_div = this.$(".stacklist-button");
+            var $buttonDiv = this.$(".stacklist-button");
             var $button = this.$(".stacklist-next");
-            $button_div.css({ opacity: 0 });
+            $buttonDiv.css({ opacity: 0 });
 
             setTimeout(function() {
                 $button.attr('aria-hidden', 'true');
