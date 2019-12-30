@@ -38,6 +38,6 @@ For core model attributes see [**core model attributes**](https://github.com/ada
 No known limitations
 
 ----------------------------
-**Version number:**  4.0.0
-**Framework versions:**  >=4
+**Version number:**  5.0.0
+**Framework versions:**  >=5
 **Author / maintainer:** Dan Storey

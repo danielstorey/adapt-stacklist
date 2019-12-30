@@ -1,11 +1,11 @@
-<div class="stacklist-inner component-inner">
+<div class="stacklist__inner component__inner">
     {{> component this}}
 
-    <div class="stacklist-widget component-widget">
-        <div class="stacklist-items">
-            <div class="stacklist-items-inner">
+    <div class="stacklist__widget component__widget">
+        <div class="stacklist__items">
+            <div class="stacklist__items-inner">
                 {{#each _items}}
-                    <div class="stacklist-item">
+                    <div class="stacklist__item">
                         {{#if this.length}}
                             {{{a11y_text this}}}
                         {{else}}
@@ -13,8 +13,8 @@
                         {{/if}}
                     </div>
                 {{/each}}
-                <div class="stacklist-button">
-                    <button class="stacklist-next" aria-label="{{{_button.startText}}}, {{{_button.ariaLabel}}}">{{{_button.startText}}}</button>
+                <div class="stacklist__button">
+                    <button class="stacklist__next" aria-label="{{{_button.startText}}}, {{{_button.ariaLabel}}}">{{{_button.startText}}}</button>
                 </div>
             </div>
         </div>

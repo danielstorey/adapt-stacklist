@@ -1,14 +1,14 @@
-define(function(require) {
-
-    var ComponentView = require('coreViews/componentView');
-    var Adapt = require('coreJS/adapt');
+define([
+    'core/js/adapt',
+    'coreViews/componentView'
+], function(Adapt, ComponentView) {
 
     var StackList = ComponentView.extend({
 
         TRANSITION_TIME: 250,
 
         events: {
-            "click .stacklist-next": "nextItem"
+            "click .stacklist__next": "nextItem"
         },
 
         preRender: function() {
@@ -18,8 +18,8 @@ define(function(require) {
         },
 
         postRender: function() {
-            this.$items = this.$(".stacklist-item");
-            this.$button = this.$('.stacklist-button');
+            this.$items = this.$(".stacklist__item");
+            this.$button = this.$('.stacklist__button');
 
             if (!this.model.get("_isComplete") || this.model.get("_isResetOnRevisit")) {
                 this.setupListItems();
@@ -85,7 +85,7 @@ define(function(require) {
 
             var items = this.model.get("_items");
             var isComplete = this.model.get("_items").length - 1 === stage;
-            var $item = this.$(".stacklist-item").eq(stage);
+            var $item = this.$(".stacklist__item").eq(stage);
 
             $item.removeClass("visibility-hidden");
 
@@ -112,13 +112,13 @@ define(function(require) {
         },
 
         updateButton: function(text, offset, ariaLabel) {
-            this.$(".stacklist-button").css({ top: "+=" + offset });
+            this.$(".stacklist__button").css({ top: "+=" + offset });
 
             if (text === '') { // On last item we do not want to update text (it's most important when stack-list has only one item)
                 return;
             }
 
-            var $button = this.$(".stacklist-next");
+            var $button = this.$(".stacklist__next");
             $button.blur();
             setTimeout(function() {
                 $button.html(text);
@@ -127,8 +127,8 @@ define(function(require) {
         },
 
         onComplete: function() {
-            var $buttonDiv = this.$(".stacklist-button");
-            var $button = this.$(".stacklist-next");
+            var $buttonDiv = this.$(".stacklist__button");
+            var $button = this.$(".stacklist__next");
             $buttonDiv.css({ opacity: 0 });
 
             setTimeout(function() {
